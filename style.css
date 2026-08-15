@@ -37,6 +37,30 @@ h1 {
   margin-top: 6px;
 }
 
+/* 언어 전환 버튼 */
+.lang-switch {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.lang-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: 1px solid #e3dcd2;
+  border-radius: 999px;
+  background: #fff;
+  cursor: pointer;
+  color: #5c564d;
+}
+
+.lang-btn.active {
+  background: #f39c12;
+  color: #fff;
+  border-color: #f39c12;
+}
+
 /* 검색 영역 */
 .search-box {
   display: flex;

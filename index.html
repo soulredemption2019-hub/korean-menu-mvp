@@ -9,9 +9,15 @@
 <body>
   <div class="container">
     <header>
-      <h1>🍜 한국 메뉴 번역</h1>
-      <p class="subtitle">한국 음식 메뉴 검색 도구</p>
+      <h1>🍜 <span id="app-title">한국 메뉴 번역</span></h1>
+      <p class="subtitle" id="subtitle">한국 음식 메뉴 검색 도구</p>
     </header>
+
+    <div class="lang-switch" id="lang-switch">
+      <button class="lang-btn active" data-lang="ko">한국어</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="cn">中文</button>
+    </div>
 
     <main>
       <section class="search-box">
@@ -19,42 +25,40 @@
         <button id="search-btn">검색</button>
       </section>
 
-      <section class="quick-tags" id="quick-tags">
-        <!-- 자주 찾는 메뉴 빠른 버튼 (app.js에서 생성) -->
-      </section>
+      <section class="quick-tags" id="quick-tags"></section>
 
       <section id="result" class="result hidden">
         <div class="result-card">
           <h2 id="dish-name"></h2>
           <p class="romanization" id="dish-roman"></p>
           <div class="spice-row">
-            <span class="label">맵기</span>
+            <span class="label" id="spice-label">맵기</span>
             <span id="spice-level" class="spice-level"></span>
             <span id="spice-text" class="spice-text"></span>
           </div>
           <p class="desc" id="dish-desc"></p>
-          <p class="ingredients"><strong>주요 재료: </strong><span id="dish-ingredients"></span></p>
+          <p class="ingredients"><strong id="ingredients-label">주요 재료: </strong><span id="dish-ingredients"></span></p>
           <p class="tip" id="dish-tip"></p>
         </div>
       </section>
 
       <section id="results" class="result hidden">
         <div class="result-card">
-          <h3 class="results-title">검색 결과</h3>
+          <h3 class="results-title" id="results-title">검색 결과</h3>
           <ul class="result-list" id="result-list"></ul>
         </div>
       </section>
 
       <section id="not-found" class="result hidden">
         <div class="result-card not-found">
-          <p>😅 메뉴를 찾지 못했어요</p>
-          <p class="hint">위의 자주 찾는 메뉴를 눌러보거나, 직원에게 직접 물어보세요.</p>
+          <p id="not-found-title">😅 메뉴를 찾지 못했어요</p>
+          <p class="hint" id="not-found-hint">위의 자주 찾는 메뉴를 눌러보거나, 직원에게 직접 물어보세요.</p>
         </div>
       </section>
     </main>
 
     <footer>
-      <p>첫 번째 MVP · 메뉴 데이터를 계속 추가할 예정이에요</p>
+      <p id="footer-text">첫 번째 MVP · 메뉴 데이터를 계속 추가할 예정이에요</p>
     </footer>
   </div>
   <script src="app.js"></script>
