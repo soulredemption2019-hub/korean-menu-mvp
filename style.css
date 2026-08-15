@@ -37,6 +37,19 @@ h1 {
   margin-top: 6px;
 }
 
+/* 语言切换下拉框 */
+.lang-select {
+  margin-top: 12px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 999px;
+  border: 1px solid #e3dcd2;
+  background: #fff;
+  color: #5c564d;
+  cursor: pointer;
+  appearance: auto;
+}
+
 /* 搜索区 */
 .search-box {
   display: flex;
