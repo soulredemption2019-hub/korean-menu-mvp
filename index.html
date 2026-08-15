@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>韩国菜单翻译 · 留学生版</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🍜 韩国菜单翻译</h1>
+      <p class="subtitle">给在韩留学生的韩餐查询工具</p>
+    </header>
+
+    <main>
+      <section class="search-box">
+        <input type="text" id="dish-input" placeholder="输入韩语菜单名，例如：김치찌개" autocomplete="off">
+        <button id="search-btn">查询</button>
+      </section>
+
+      <section class="quick-tags" id="quick-tags">
+        <!-- 常见菜单快捷按钮，由 app.js 生成 -->
+      </section>
+
+      <section id="result" class="result hidden">
+        <div class="result-card">
+          <h2 id="dish-name"></h2>
+          <p class="romanization" id="dish-roman"></p>
+          <p class="chinese-name" id="dish-cn"></p>
+          <div class="spice-row">
+            <span class="label">辣度</span>
+            <span id="spice-level" class="spice-level"></span>
+            <span id="spice-text" class="spice-text"></span>
+          </div>
+          <p class="desc" id="dish-desc"></p>
+          <p class="ingredients"><strong>主要食材：</strong><span id="dish-ingredients"></span></p>
+          <p class="tip" id="dish-tip"></p>
+        </div>
+      </section>
+
+      <section id="not-found" class="result hidden">
+        <div class="result-card not-found">
+          <p>😅 暂时没找到这个菜单</p>
+          <p class="hint">可以试试上方常见菜单，或者直接问店员。</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>第一版 MVP · 菜单数据会慢慢扩充</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

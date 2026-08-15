@@ -1,0 +1,189 @@
+/* 韩国菜单翻译 · 第一版 MVP
+   设计目标：手机优先、界面简洁清楚 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "PingFang SC", "Noto Sans KR", "Hiragino Sans GB", sans-serif;
+  background: #f7f3ee;
+  color: #2d2a26;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  color: #8a8378;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* 搜索区 */
+.search-box {
+  display: flex;
+  gap: 8px;
+}
+
+#dish-input {
+  flex: 1;
+  padding: 14px;
+  font-size: 16px;
+  border: 2px solid #e3dcd2;
+  border-radius: 12px;
+  background: #fff;
+  outline: none;
+}
+
+#dish-input:focus {
+  border-color: #f39c12;
+}
+
+#search-btn {
+  padding: 0 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  background: #f39c12;
+  color: #fff;
+  cursor: pointer;
+}
+
+#search-btn:active {
+  opacity: 0.8;
+}
+
+/* 常见菜单快捷按钮 */
+.quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 8px;
+}
+
+.tag {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 999px;
+  border: 1px solid #e3dcd2;
+  background: #fff;
+  cursor: pointer;
+  color: #5c564d;
+}
+
+.tag:active {
+  background: #fdf0dd;
+}
+
+/* 结果卡片 */
+.result {
+  margin-top: 24px;
+}
+
+.result-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.result-card h2 {
+  font-size: 24px;
+}
+
+.romanization {
+  color: #a09a8f;
+  font-size: 13px;
+}
+
+.chinese-name {
+  font-size: 16px;
+  color: #f39c12;
+  font-weight: 600;
+  margin: 4px 0 12px;
+}
+
+.spice-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.label {
+  font-size: 13px;
+  color: #8a8378;
+}
+
+.spice-level {
+  color: #e74c3c;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.spice-text {
+  font-size: 13px;
+  color: #5c564d;
+}
+
+.desc {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.ingredients {
+  font-size: 14px;
+  color: #5c564d;
+  line-height: 1.6;
+}
+
+.tip {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fdf6e9;
+  font-size: 13px;
+  color: #8a6d3b;
+  line-height: 1.5;
+}
+
+/* 没找到 */
+.not-found {
+  text-align: center;
+  color: #8a8378;
+}
+
+.not-found .hint {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.hidden {
+  display: none;
+}
+
+footer {
+  text-align: center;
+  color: #b5aea2;
+  font-size: 12px;
+  margin-top: 32px;
+}
