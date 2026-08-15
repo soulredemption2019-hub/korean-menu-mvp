@@ -1,5 +1,5 @@
-/* 韩国菜单翻译 · 第一版 MVP
-   设计目标：手机优先、界面简洁清楚 */
+/* 한국 메뉴 번역 · 첫 번째 MVP
+   디자인 목표: 모바일 우선, 깔끔하고 명확한 화면 */
 
 * {
   margin: 0;
@@ -37,7 +37,7 @@ h1 {
   margin-top: 6px;
 }
 
-/* 搜索区 */
+/* 검색 영역 */
 .search-box {
   display: flex;
   gap: 8px;
@@ -71,7 +71,7 @@ h1 {
   opacity: 0.8;
 }
 
-/* 常见菜单快捷按钮 */
+/* 자주 찾는 메뉴 빠른 버튼 */
 .quick-tags {
   display: flex;
   flex-wrap: wrap;
@@ -93,7 +93,7 @@ h1 {
   background: #fdf0dd;
 }
 
-/* 结果卡片 */
+/* 결과 카드 */
 .result {
   margin-top: 24px;
 }
@@ -112,13 +112,6 @@ h1 {
 .romanization {
   color: #a09a8f;
   font-size: 13px;
-}
-
-.chinese-name {
-  font-size: 16px;
-  color: #f39c12;
-  font-weight: 600;
-  margin: 4px 0 12px;
 }
 
 .spice-row {
@@ -166,7 +159,37 @@ h1 {
   line-height: 1.5;
 }
 
-/* 没找到 */
+/* 검색 결과 목록 */
+.results-title {
+  font-size: 16px;
+  color: #5c564d;
+  margin-bottom: 12px;
+}
+
+.result-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #e3dcd2;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  color: #2d2a26;
+}
+
+.result-item:active {
+  background: #fdf0dd;
+}
+
+/* 찾지 못함 */
 .not-found {
   text-align: center;
   color: #8a8378;
