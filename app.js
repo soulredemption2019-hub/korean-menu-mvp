@@ -333,6 +333,7 @@ const I18N = {
     ingredientsLabel: "主要食材：",
     notFoundTitle: "😅 暂时没找到这个菜单",
     notFoundHint: "可以试试上方常见菜单，或者直接问店员。",
+    matchTitle: "有 {n} 个可能的结果：",
     footer: "第一版 MVP · 菜单数据会慢慢扩充",
     docTitle: "韩国菜单翻译 · 留学生版",
     spice: { 1: "不辣", 2: "微辣", 3: "中辣", 4: "很辣", 5: "超辣" }
@@ -346,6 +347,7 @@ const I18N = {
     ingredientsLabel: "주요 재료: ",
     notFoundTitle: "😅 이 메뉴를 찾지 못했어요",
     notFoundHint: "위의 인기 메뉴를 눌러보거나, 점원에게 직접 물어보세요.",
+    matchTitle: "검색 결과 {n}개:",
     footer: "첫 번째 MVP · 메뉴 데이터는 계속 추가됩니다",
     docTitle: "한식 메뉴 번역 · 유학생 버전",
     spice: { 1: "안 매움", 2: "약간 매움", 3: "보통", 4: "많이 매움", 5: "아주 많이 매움" }
@@ -359,6 +361,7 @@ const I18N = {
     ingredientsLabel: "Main ingredients: ",
     notFoundTitle: "😅 We couldn't find this dish",
     notFoundHint: "Try a popular dish above, or ask the staff directly.",
+    matchTitle: "{n} possible matches:",
     footer: "First MVP · More dishes coming soon",
     docTitle: "Korean Menu Translator · Student Version",
     spice: { 1: "Not spicy", 2: "Mild", 3: "Medium", 4: "Very spicy", 5: "Extremely spicy" }
@@ -372,6 +375,9 @@ const resultEl = document.getElementById("result");
 const notFoundEl = document.getElementById("not-found");
 const tagBox = document.getElementById("quick-tags");
 const langSelectEl = document.getElementById("lang-select");
+const matchListEl = document.getElementById("match-list");
+const matchListTitleEl = document.getElementById("match-list-title");
+const matchListBoxEl = document.getElementById("match-list-box");
 
 // ===== 语言状态（从 localStorage 读取，非法值回退默认）=====
 function loadLang() {
@@ -380,7 +386,8 @@ function loadLang() {
 }
 
 let lang = loadLang();
-let currentDish = null; // 当前显示中的菜单，切换语言后重新渲染
+let currentDish = null;     // 当前显示中的菜单，切换语言后重新渲染
+let currentMatches = null;  // 当前显示中的搜索结果列表
 
 // ===== 通用取词（缺词自动回退默认语言）=====
 function t(key) {
@@ -416,8 +423,12 @@ function applyLang() {
   inputEl.placeholder = t("placeholder");
   renderTags();
 
-  // 如果结果卡片正显示着，立即切换成新语言
-  if (currentDish) renderDish(currentDish);
+  // 如果结果卡片或搜索结果列表正显示着，立即切换成新语言
+  if (currentDish) {
+    renderDish(currentDish);
+  } else if (currentMatches) {
+    showMatchList(currentMatches);
+  }
 }
 
 // ===== 常见菜单快捷按钮（取前 8 个，随语言切换）=====
@@ -435,28 +446,67 @@ function renderTags() {
   });
 }
 
-// ===== 查询逻辑 =====
+// ===== 查询逻辑（模糊搜索）=====
 function search() {
   const q = inputEl.value.trim().toLowerCase();
   if (!q) return;
 
-  // 匹配所有语言的名字 + 罗马音（任意一种语言都能搜）
-  const dish = DISHES.find(function (d) {
-    const names = Object.values(d.name)
-      .concat([d.roman])
-      .map(function (s) { return s.toLowerCase(); });
-    return names.includes(q);
-  });
+  const matches = findMatches(q);
 
-  if (dish) {
-    renderDish(dish);
+  if (matches.length === 1) {
+    renderDish(matches[0]);
+  } else if (matches.length > 1) {
+    showMatchList(matches);
   } else {
     showNotFound();
   }
 }
 
+// 模糊匹配：精确 > 开头匹配 > 包含匹配，跨所有语言 + 罗马音
+function findMatches(q) {
+  return DISHES
+    .map(function (d) {
+      const names = Object.values(d.name).concat([d.roman]);
+      let score = null; // 越小越接近：0 精确 / 1 开头 / 2 包含
+      names.forEach(function (s) {
+        const lower = s.toLowerCase();
+        if (lower === q) score = score === null ? 0 : Math.min(score, 0);
+        else if (lower.startsWith(q)) score = score === null ? 1 : Math.min(score, 1);
+        else if (lower.includes(q)) score = score === null ? 2 : Math.min(score, 2);
+      });
+      return { dish: d, score: score };
+    })
+    .filter(function (r) { return r.score !== null; })
+    .sort(function (a, b) { return a.score - b.score; })
+    .map(function (r) { return r.dish; });
+}
+
+// 多个结果：显示可点选的列表
+function showMatchList(matches) {
+  currentDish = null;
+  currentMatches = matches;
+  resultEl.classList.add("hidden");
+  notFoundEl.classList.add("hidden");
+  matchListEl.classList.remove("hidden");
+
+  matchListTitleEl.textContent = t("matchTitle").replace("{n}", matches.length);
+  matchListBoxEl.innerHTML = "";
+
+  matches.forEach(function (d) {
+    const b = document.createElement("button");
+    b.className = "match-item";
+    b.textContent = (d.name[lang] || d.name[DEFAULT_LANG]) + " · " + d.roman;
+    b.addEventListener("click", function () {
+      renderDish(d);
+    });
+    matchListBoxEl.appendChild(b);
+  });
+}
+
 function renderDish(d) {
   currentDish = d;
+  currentMatches = null;
+  matchListEl.classList.add("hidden");
   notFoundEl.classList.add("hidden");
   resultEl.classList.remove("hidden");
 
@@ -482,6 +532,8 @@ function renderDish(d) {
 
 function showNotFound() {
   currentDish = null;
+  currentMatches = null;
+  matchListEl.classList.add("hidden");
   resultEl.classList.add("hidden");
   notFoundEl.classList.remove("hidden");
 }
