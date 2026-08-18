@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="韩餐菜单搜索、翻译与发音助手 — search, translate and pronounce Korean dishes">
+  <title>韩餐点餐助手</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍜</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <h1>🍜 <span id="app-title"></span></h1>
+      <p class="subtitle" id="app-subtitle"></p>
+    </header>
+
+    <nav class="lang-switch" id="lang-switch" aria-label="Language / 语言">
+      <button class="lang-btn" type="button" data-lang="ko" aria-pressed="false">한국어</button>
+      <button class="lang-btn" type="button" data-lang="en" aria-pressed="false">English</button>
+      <button class="lang-btn" type="button" data-lang="zh" aria-pressed="false">中文</button>
+    </nav>
+
+    <main>
+      <section class="search-section">
+        <form class="search-box" id="search-form" role="search">
+          <label class="sr-only" for="search-input" id="search-aria"></label>
+          <input type="search" id="search-input" autocomplete="off" enterkeyhint="search">
+          <button type="submit" id="search-btn"></button>
+        </form>
+
+        <div class="history" id="history" hidden>
+          <div class="history-head">
+            <span class="history-title" id="history-title"></span>
+            <button type="button" class="link-btn" id="clear-history"></button>
+          </div>
+          <div class="chips" id="history-chips"></div>
+        </div>
+      </section>
+
+      <section class="filters" aria-label="Filters">
+        <div class="filter-row">
+          <span class="filter-label" id="filter-spice-label"></span>
+          <div class="chips" id="spice-chips"></div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label" id="filter-cat-label"></span>
+          <div class="chips" id="category-chips"></div>
+        </div>
+      </section>
+
+      <section id="home-view" class="view">
+        <h2 class="section-title" id="collections-title"></h2>
+        <div class="collection-cards" id="collection-cards"></div>
+
+        <h2 class="section-title" id="popular-title"></h2>
+        <div class="chips" id="popular-tags"></div>
+      </section>
+
+      <section id="results-view" class="view hidden" aria-live="polite">
+        <div class="results-head">
+          <button type="button" class="link-btn back-home" id="back-home"></button>
+          <h2 class="results-title" id="results-title"></h2>
+          <span class="results-count" id="results-count"></span>
+        </div>
+        <ul class="results-list" id="results-list"></ul>
+      </section>
+
+      <section id="dish-view" class="view hidden" aria-live="polite">
+        <article class="dish-card">
+          <div class="name-row">
+            <div class="name-block">
+              <h2 id="dish-name"></h2>
+              <p class="roman" id="dish-roman"></p>
+            </div>
+            <button type="button" class="icon-btn" id="listen-btn" aria-pressed="false"></button>
+          </div>
+
+          <div class="tag-row">
+            <span class="chip chip-static" id="dish-category"></span>
+            <span class="taste-tags" id="dish-tastes"></span>
+          </div>
+
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-label" id="price-label"></span>
+              <span class="price-value" id="dish-price"></span>
+              <div class="currency-toggle" id="currency-toggle" role="group" aria-label="Currency">
+                <button type="button" data-currency="CNY" aria-pressed="true">¥</button>
+                <button type="button" data-currency="USD" aria-pressed="false">$</button>
+              </div>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label" id="spice-label"></span>
+              <span class="spice-peppers" id="dish-spice-peppers"></span>
+              <span class="spice-text" id="dish-spice-text"></span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label" id="kcal-label"></span>
+              <span class="kcal-value" id="dish-kcal"></span>
+            </div>
+          </div>
+
+          <div class="rating-row">
+            <span class="meta-label" id="rating-label"></span>
+            <span class="stars" id="dish-rating-stars" role="img"></span>
+            <span class="rating-num" id="dish-rating-num"></span>
+          </div>
+
+          <div class="rating-row my-rating-row">
+            <span class="meta-label" id="my-rating-label"></span>
+            <span class="stars-input" id="my-rating-stars" role="group"></span>
+            <button type="button" class="link-btn hidden" id="clear-my-rating"></button>
+          </div>
+
+          <p class="desc" id="dish-desc"></p>
+          <p class="ingredients"><strong id="ingredients-label"></strong><span id="dish-ingredients"></span></p>
+          <p class="tip"><strong id="tip-label"></strong><span id="dish-tip"></span></p>
+
+          <div class="theme-links">
+            <span class="meta-label" id="in-theme-label"></span>
+            <div class="chips" id="dish-collections"></div>
+          </div>
+        </article>
+      </section>
+
+      <section id="not-found-view" class="view hidden">
+        <div class="not-found-card">
+          <p class="not-found-title" id="not-found-title"></p>
+          <p class="hint" id="not-found-hint"></p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p id="footer-note"></p>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
