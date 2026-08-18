@@ -423,6 +423,9 @@
     var ratings = store.get(KEYS.ratings, {});
     ratings[dishId] = value;
     store.set(KEYS.ratings, ratings);
+    if (KM.supabase && KM.supabase.ready) {
+      KM.supabase.saveRating(dishId, value).catch(function () { /* 云端失败静默忽略，本地已保存 */ });
+    }
     if (state.view === "dish" && state.dish && state.dish.id === dishId) {
       renderMyRating(state.dish);
     }
@@ -433,6 +436,9 @@
     var ratings = store.get(KEYS.ratings, {});
     delete ratings[state.dish.id];
     store.set(KEYS.ratings, ratings);
+    if (KM.supabase && KM.supabase.ready) {
+      KM.supabase.deleteRating(state.dish.id).catch(function () { /* 云端失败静默忽略 */ });
+    }
     renderMyRating(state.dish);
   }
 
@@ -702,6 +708,26 @@
     }
   }
 
+  // ===== 云端评分恢复（换浏览器/清缓存后合并回本地） =====
+  function syncRatingsFromCloud() {
+    if (!KM.supabase || !KM.supabase.ready) return;
+    KM.supabase.fetchRatings().then(function (rows) {
+      if (!rows || !rows.length) return;
+      var ratings = store.get(KEYS.ratings, {});
+      var changed = false;
+      rows.forEach(function (r) {
+        if (r && r.dish_id && ratings[r.dish_id] !== r.score) {
+          ratings[r.dish_id] = r.score;
+          changed = true;
+        }
+      });
+      if (changed) {
+        store.set(KEYS.ratings, ratings);
+        if (state.dish) renderMyRating(state.dish);
+      }
+    }).catch(function () { /* 云端不可用时忽略，保持本地数据 */ });
+  }
+
   // ===== 初始化 =====
   function init() {
     bindEvents();
@@ -709,6 +735,7 @@
     renderFilters();
     renderHistory();
     applyHash();
+    syncRatingsFromCloud();
   }
 
   if (doc.readyState === "loading" && doc.addEventListener) {
